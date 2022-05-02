@@ -1,6 +1,8 @@
 package StepDefinition;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -56,38 +58,41 @@ public class testcases extends webcommon {
 	public void sort_low_to_high() {
 		pg = new page(driver);
         pg.sort();
+        pg.lowtohigh();
 	}
 	
 	
 	@Then("^verify product prices are arranged in ascending order$")
 	public void verify_product_prices_are_arranged_in_ascending_order() throws Exception {
 		
-		
+		Thread.sleep(10000);	
 		
 	List<WebElement> afterfilter=	driver.findElements(By.xpath("//span[@class='product-discountedPrice']"));
 	
-	
 	Thread.sleep(3000);
-	for(WebElement p:afterfilter) {
-		String pricesaftersort = p.getText();
-		System.out.println(pricesaftersort);
-		
-		driver.findElement(By.xpath("//*[contains(text(),'119 to Rs. 2040')]")).click();
-		
-		List<WebElement> beforefilter=	driver.findElements(By.xpath("//span[@class='product-discountedPrice']"));
-		
-		for(WebElement b:beforefilter) {
-			String pricesbeforesort = b.getText();
-			System.out.println(pricesbeforesort);
+	   String[] str = new String[afterfilter.size()];
 
-			if(pricesaftersort.contains(pricesbeforesort)) {
-				softasssert.assertTrue(true);
-			}
-		}
+	for(WebElement e:afterfilter) {
+		
+		String text = e.getText();
+	    for (int i = 0 ; i<str.length ; i++){
+	        str[i] = driver.findElements(By.xpath("//span[@class='product-discountedPrice']")).get(i).getText();
+	    }
+	
+	    Arrays.sort(str);
+	    for(String strr: str){
+	        System.out.println(strr);
+	        
+	        if(strr.contentEquals(text)) {
+	        	softasssert.assertTrue(true);
+	        }
+	      
+	    }
+	}
 		
 	}
 	}
 	
 
    
-    }
+    

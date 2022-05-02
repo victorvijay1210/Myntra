@@ -18,13 +18,14 @@ public class page {
 	@FindBy(xpath = "//input[@placeholder='Search for products, brands and more']")
 	WebElement searchbar;
 	
-	@FindBy(xpath = "//span[@class='myntraweb-sprite desktop-iconSearch sprites-search']")
+	@FindBy(xpath = "//li[contains(text(),'Tshirts For Men')]")
 	WebElement searchicon;
 	
-	@FindBy(xpath = "//*[contains(text(),'119 to Rs. 2040')]")
+	@FindBy(xpath = "//div[@class='sort-sortBy']")
 	WebElement sort;
 	
-	
+	@FindBy(xpath = "//*[contains(text(),'Price: Low to High')]")
+	WebElement lowtohigh;
 		
 	WebDriver driver;
 	WebDriverWait wait;
@@ -58,6 +59,12 @@ public class page {
 		wait = new WebDriverWait(driver,10);
 		wait.until(ExpectedConditions.visibilityOf(sort));
 		 sort.click();
+	}
+	
+	public void lowtohigh() {
+		wait = new WebDriverWait(driver,10);
+		wait.until(ExpectedConditions.visibilityOf(sort));
+		lowtohigh.click();
 	}
 	
 }
