@@ -67,29 +67,32 @@ public class testcases extends webcommon {
 		
 		Thread.sleep(10000);	
 		
+		//after low to high filter
 	List<WebElement> afterfilter=	driver.findElements(By.xpath("//span[@class='product-discountedPrice']"));
+   List<Double> afterfilterlist = new ArrayList<>();
 	
-	Thread.sleep(3000);
-	   String[] str = new String[afterfilter.size()];
+for(WebElement p:afterfilter ) {
+	afterfilterlist.add(Double.valueOf(p.getText().replace("Rs.", "")));
+}
 
-	for(WebElement e:afterfilter) {
-		
-		String text = e.getText();
-	    for (int i = 0 ; i<str.length ; i++){
-	        str[i] = driver.findElements(By.xpath("//span[@class='product-discountedPrice']")).get(i).getText();
-	    }
+driver.findElement(By.xpath("//div[@class='sort-sortBy']")).click();
+Thread.sleep(2000);
+driver.findElement(By.xpath("//*[contains(text(),'Price: High to Low')]")).click();
+	   
+Thread.sleep(10000);  
+
+// high to low filter
+List<WebElement> withoutlowtohighfilter=	driver.findElements(By.xpath("//span[@class='product-discountedPrice']"));
+List<Double> withoutlowtohighfilterlist = new ArrayList<>();
 	
-	    Arrays.sort(str);
-	    for(String strr: str){
-	        System.out.println(strr);
-	        
-	        if(strr.contentEquals(text)) {
-	        	softasssert.assertTrue(true);
-	        }
-	      
-	    }
-	}
-		
+for(WebElement b:withoutlowtohighfilter ) {
+	withoutlowtohighfilterlist.add(Double.valueOf(b.getText().replace("Rs.", "")));
+}
+
+//validate
+Collections.sort(withoutlowtohighfilterlist);
+softasssert.assertEquals(withoutlowtohighfilterlist, afterfilterlist);
+	
 	}
 	}
 	
